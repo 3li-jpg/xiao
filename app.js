@@ -1,7 +1,8 @@
 const SITE = {
   herName: "Ashwaki",
-  fromName: "Ali",
+  fromName: "Alawi",
   dateLabel: "September 6th",
+  photo: "./photos/ashwaki.jpg",
   intro: [
     "hey Ashwaki.",
     "I made you something.",
@@ -10,11 +11,9 @@ const SITE = {
   ],
   letter: `Ashwaki,
 
-I wanted to give you something you could open. Not a text that disappears into the thread.
+I wanted to give you something you could open. Not a text that disappears.
 
 A quiet little place that exists because it’s your birthday, and because I love you.
-
-Thank you for being the softest part of my days. I hope this year is very kind to you.
 
 happy birthday.
 always yours,`,
@@ -44,12 +43,18 @@ const cakeBtn = document.querySelector("#cakeBtn");
 const finaleName = document.querySelector("#finaleName");
 const finaleFrom = document.querySelector("#finaleFrom");
 const finaleKicker = document.querySelector("#finaleKicker");
+const photoBtn = document.querySelector("#photoBtn");
+const cutoutPhoto = document.querySelector("#cutoutPhoto");
 const canvas = document.querySelector("#confetti");
 const ctx = canvas.getContext("2d");
 
 let introStep = 0;
 let confettiBits = [];
 let confettiTimer = 0;
+
+function isPhone() {
+  return window.matchMedia("(max-width: 700px)").matches || window.innerHeight < 760;
+}
 
 function showScene(name) {
   document.querySelectorAll(".scene").forEach((scene) => {
@@ -96,18 +101,19 @@ function renderCards() {
     .join("");
 }
 
-function spawnFloaters(count = 42) {
+function spawnFloaters(count) {
   const root = document.querySelector("#floaters");
   const glyphs = ["♥", "♥", "♥", "♡", "♥"];
+  const n = count ?? (isPhone() ? 18 : 42);
   root.innerHTML = "";
-  for (let i = 0; i < count; i += 1) {
+  for (let i = 0; i < n; i += 1) {
     const span = document.createElement("span");
     span.className = "floater";
     span.textContent = glyphs[i % glyphs.length];
     span.style.left = `${Math.random() * 100}%`;
     span.style.animationDuration = `${7 + Math.random() * 9}s`;
     span.style.animationDelay = `${Math.random() * 6}s`;
-    span.style.fontSize = `${12 + Math.random() * 22}px`;
+    span.style.fontSize = `${10 + Math.random() * (isPhone() ? 14 : 22)}px`;
     span.style.color = i % 3 === 0 ? "#7a3b45" : "#c97b84";
     root.appendChild(span);
   }
@@ -115,16 +121,22 @@ function spawnFloaters(count = 42) {
 
 function spawnScatter() {
   const root = document.querySelector("#heartScatter");
-  const spots = [
-    [6, 8], [18, 14], [88, 10], [94, 22], [8, 42], [92, 48],
-    [4, 70], [14, 86], [86, 78], [96, 62], [48, 6], [72, 12],
-    [28, 90], [62, 88], [40, 8], [80, 36], [12, 58], [90, 84],
-    [22, 28], [76, 68], [34, 76], [58, 18], [10, 22], [84, 54],
-  ];
+  const spots = isPhone()
+    ? [
+        [8, 10], [88, 12], [6, 42], [92, 48],
+        [10, 78], [86, 74], [48, 6], [70, 88],
+        [22, 90], [78, 38],
+      ]
+    : [
+        [6, 8], [18, 14], [88, 10], [94, 22], [8, 42], [92, 48],
+        [4, 70], [14, 86], [86, 78], [96, 62], [48, 6], [72, 12],
+        [28, 90], [62, 88], [40, 8], [80, 36], [12, 58], [90, 84],
+        [22, 28], [76, 68], [34, 76], [58, 18], [10, 22], [84, 54],
+      ];
   root.innerHTML = spots
     .map(
       ([x, y], i) =>
-        `<span style="left:${x}%;top:${y}%;font-size:${14 + (i % 5) * 6}px;animation-delay:${(i * 0.18).toFixed(2)}s">${i % 4 === 0 ? "♡" : "♥"}</span>`
+        `<span style="left:${x}%;top:${y}%;font-size:${12 + (i % 4) * 5}px;animation-delay:${(i * 0.18).toFixed(2)}s">${i % 4 === 0 ? "♡" : "♥"}</span>`
     )
     .join("");
 }
@@ -207,10 +219,11 @@ function drawConfetti() {
 }
 
 function celebrate() {
-  burst(window.innerWidth / 2, window.innerHeight * 0.28, 140);
-  burst(window.innerWidth * 0.22, window.innerHeight * 0.42, 70);
-  burst(window.innerWidth * 0.78, window.innerHeight * 0.42, 70);
-  burstHearts(window.innerWidth / 2, window.innerHeight * 0.35, 16);
+  const amount = isPhone() ? 70 : 140;
+  burst(window.innerWidth / 2, window.innerHeight * 0.28, amount);
+  burst(window.innerWidth * 0.22, window.innerHeight * 0.42, isPhone() ? 30 : 70);
+  burst(window.innerWidth * 0.78, window.innerHeight * 0.42, isPhone() ? 30 : 70);
+  burstHearts(window.innerWidth / 2, window.innerHeight * 0.35, isPhone() ? 8 : 16);
   confettiTimer = 1;
   drawConfetti();
 }
@@ -220,6 +233,12 @@ letterDate.textContent = SITE.dateLabel;
 finaleKicker.textContent = SITE.dateLabel.toLowerCase();
 finaleName.textContent = SITE.herName;
 finaleFrom.textContent = `— ${SITE.fromName}`;
+cutoutPhoto.addEventListener("error", () => {
+  if (cutoutPhoto.dataset.fallback) return;
+  cutoutPhoto.dataset.fallback = "1";
+  cutoutPhoto.src = "./photos/placeholder.svg";
+});
+cutoutPhoto.src = SITE.photo;
 renderCards();
 spawnFloaters();
 spawnScatter();
@@ -252,7 +271,8 @@ envelope.addEventListener("click", () => {
   }, 1100);
 });
 
-letterBtn.addEventListener("click", () => showScene("reasons"));
+letterBtn.addEventListener("click", () => showScene("photo"));
+photoBtn.addEventListener("click", () => showScene("reasons"));
 
 function flipCard(card) {
   if (!card) return;
@@ -287,7 +307,7 @@ blowBtn.addEventListener("click", () => {
 cakeBtn.addEventListener("click", () => {
   showScene("finale");
   celebrate();
-  spawnFloaters(56);
+  spawnFloaters(isPhone() ? 28 : 56);
 });
 
 document.addEventListener("pointerdown", (event) => {

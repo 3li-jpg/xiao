@@ -22,16 +22,29 @@
 html,
 body {
   margin: 0;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  height: 100svh;
+  height: 100dvh;
   background: var(--ivory);
   color: var(--ink);
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior: none;
 }
 
 body {
-  min-height: 100svh;
+  position: fixed;
+  inset: 0;
   overflow: hidden;
+}
+
+.clip-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 
 button {
@@ -126,7 +139,7 @@ button {
 .stage {
   position: relative;
   z-index: 2;
-  height: 100svh;
+  height: 100%;
   width: min(560px, 100%);
   margin: 0 auto;
 }
@@ -138,11 +151,16 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 32px 24px calc(28px + env(safe-area-inset-bottom));
-  gap: 22px;
+  padding:
+    max(14px, env(safe-area-inset-top))
+    18px
+    max(14px, env(safe-area-inset-bottom));
+  gap: clamp(8px, 1.8vh, 20px);
   opacity: 0;
   transform: translateY(18px);
   pointer-events: none;
+  overflow: hidden;
+  min-height: 0;
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
@@ -164,11 +182,12 @@ button {
 .whisper {
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(2rem, 9vw, 3.4rem);
+  font-size: clamp(1.7rem, 8vw, 3.2rem);
   font-weight: 500;
   font-style: italic;
   text-align: center;
   line-height: 1.15;
+  max-width: 16ch;
 }
 
 .whisper.small {
@@ -176,9 +195,9 @@ button {
 }
 
 .scene-title {
-  margin: -8px 0 4px;
+  margin: 0;
   font-family: var(--serif);
-  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  font-size: clamp(1.35rem, 6vw, 2.4rem);
   font-weight: 500;
   font-style: italic;
   text-align: center;
@@ -188,6 +207,7 @@ button {
 .pill-btn {
   min-height: 44px;
   padding: 10px 18px;
+  flex-shrink: 0;
 }
 
 .text-btn {
@@ -229,8 +249,9 @@ button {
 
 .envelope {
   position: relative;
-  width: min(300px, 82vw);
-  height: 190px;
+  width: min(280px, 78vw);
+  height: min(168px, 24vh);
+  flex-shrink: 0;
   perspective: 900px;
   transform-style: preserve-3d;
   background: transparent;
@@ -326,20 +347,22 @@ button {
 }
 
 .envelope.is-open .letter-peek {
-  transform: translateY(-78px);
+  transform: translateY(-42%);
   z-index: 2;
 }
 
 .paper {
   width: min(420px, 92vw);
-  min-height: 320px;
-  padding: 36px 28px 28px;
+  max-height: min(58vh, 460px);
+  overflow: auto;
+  padding: clamp(16px, 3vh, 32px) clamp(16px, 4vw, 28px);
   background:
     linear-gradient(180deg, rgba(255, 248, 241, 0.2), transparent 40%),
     var(--paper);
   border-radius: 4px;
   box-shadow: var(--shadow);
   transform: rotate(-0.4deg);
+  flex: 0 1 auto;
 }
 
 .paper-hearts {
@@ -361,23 +384,88 @@ button {
 .paper-body {
   margin: 0;
   font-family: var(--serif);
-  font-size: clamp(1.15rem, 4.4vw, 1.45rem);
-  line-height: 1.55;
+  font-size: clamp(1rem, 3.8vw, 1.4rem);
+  line-height: 1.45;
   white-space: pre-wrap;
-  min-height: 9em;
+}
+
+.cutout {
+  position: relative;
+  margin: 0;
+  width: min(230px, 68vw);
+  flex: 0 1 auto;
+}
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  z-index: 3;
+  width: 72px;
+  height: 22px;
+  margin-left: -36px;
+  background: linear-gradient(180deg, rgba(255, 248, 241, 0.55), rgba(232, 201, 196, 0.45));
+  transform: rotate(-8deg);
+  box-shadow: 0 2px 6px rgba(58, 42, 44, 0.12);
+}
+
+.cutout-paper,
+.cutout-window {
+  width: 100%;
+  aspect-ratio: 1;
+  clip-path: url(#heartCut);
+}
+
+.cutout-paper {
+  position: absolute;
+  inset: auto 0 28px;
+  transform: scale(1.08) rotate(-6deg);
+  background: #fff8f1;
+  box-shadow: 0 16px 30px rgba(122, 59, 69, 0.18);
+}
+
+.cutout-window {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transform: rotate(-3deg);
+  background: #e8c9c4;
+  box-shadow: 0 10px 24px rgba(122, 59, 69, 0.16);
+}
+
+.cutout-window img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+
+.cutout-caption {
+  margin: 10px 0 0;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--wine);
+  font-size: 1rem;
 }
 
 .cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 8px;
   width: min(420px, 92vw);
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 52vh;
 }
 
 .card {
   display: block;
   width: 100%;
-  height: 118px;
+  height: 100%;
+  min-height: 0;
   perspective: 900px;
   background: none;
   padding: 0;
@@ -405,9 +493,9 @@ button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 14px;
-  border-radius: 16px;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 14px;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   box-shadow: 0 10px 24px rgba(122, 59, 69, 0.1);
@@ -437,23 +525,37 @@ button {
 
 .card-copy {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.45;
+  font-size: clamp(11px, 3vw, 13px);
+  line-height: 1.35;
   color: var(--ink);
   font-family: var(--serif);
   font-style: italic;
 }
 
 .cake-scene {
-  height: 250px;
+  height: min(210px, 34vh);
   display: grid;
   place-items: end center;
+  flex: 0 1 auto;
 }
 
 .cake {
   position: relative;
-  width: 180px;
-  height: 210px;
+  width: min(170px, 46vw);
+  height: min(190px, 32vh);
+}
+
+.actions {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  width: min(280px, 90vw);
+  flex-shrink: 0;
+}
+
+.actions > * {
+  grid-area: 1 / 1;
 }
 
 .candles {
@@ -566,11 +668,12 @@ button {
 .script {
   margin: 0;
   font-family: var(--script);
-  font-size: clamp(3.4rem, 16vw, 5.6rem);
+  font-size: clamp(2.6rem, 14vw, 5.4rem);
   font-weight: 400;
-  line-height: 0.9;
+  line-height: 0.92;
   color: var(--wine);
   text-align: center;
+  max-width: 95%;
 }
 
 .beloved {
@@ -663,17 +766,45 @@ button {
   }
 }
 
-@media (max-width: 420px) {
-  .cards {
-    gap: 10px;
+@media (max-width: 480px) {
+  .kicker {
+    font-size: 10px;
+    letter-spacing: 0.28em;
   }
 
-  .card {
-    height: 108px;
+  .heart-row.tiny {
+    display: none;
   }
 
   .paper {
-    padding: 28px 20px 22px;
+    padding: 16px 16px 14px;
+  }
+
+  .card-label {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-height: 700px) {
+  .heart-row:not(.finale-hearts) {
+    display: none;
+  }
+
+  .paper-hearts {
+    display: none;
+  }
+
+  .whisper.small {
+    font-size: clamp(1.15rem, 5vw, 1.6rem);
+  }
+
+  .cake {
+    transform: scale(0.82);
+    transform-origin: bottom center;
+  }
+
+  .cutout {
+    width: min(190px, 58vw);
   }
 }
 

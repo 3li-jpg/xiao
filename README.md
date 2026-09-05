@@ -1,6 +1,6 @@
 # for Ashwaki
 
-A tiny romantic birthday website. No build step, no framework — just open `index.html`.
+A tiny romantic birthday website. No build step — just open `index.html` on a phone.
 
 ## Send it to her
 
@@ -10,21 +10,25 @@ The fastest way is GitHub Pages:
 2. On GitHub: **Settings → Pages → Deploy from a branch → `master` / root**.
 3. Send her `https://3li-jpg.github.io/xiao/`.
 
-You can also just open `index.html` on your phone and hand it to her.
+## Her childhood photo
 
-## Make it hers
+Drop the picture here:
+
+```
+photos/ashwaki.jpg
+```
+
+It is shown as a heart-shaped paper cutout. A childhood portrait that is fairly close-up works best.
+
+## Names and copy
 
 Everything personal lives at the top of `app.js`:
 
 ```js
 const SITE = {
   herName: "Ashwaki",
-  fromName: "Ali",
+  fromName: "Alawi",
   dateLabel: "September 6th",
-  intro: [ ... ],
-  letter: `...`,
-  reasons: [ ... ],
+  photo: "./photos/ashwaki.jpg",
 };
 ```
-
-That’s it. Soft click-through, an envelope, a letter, a few reasons, then a cake — with hearts throughout, and a heart wherever she taps.

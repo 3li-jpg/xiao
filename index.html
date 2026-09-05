@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f4ece3" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="description" content="A little birthday website for Ashwaki." />
     <title>for Ashwaki ♥</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,6 +18,14 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <svg class="clip-svg" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="heartCut" clipPathUnits="objectBoundingBox">
+          <path d="M0.5,0.9 C0.2,0.64 0,0.4 0,0.24 C0,0.1 0.12,0 0.26,0 C0.36,0 0.45,0.05 0.5,0.16 C0.55,0.05 0.64,0 0.74,0 C0.88,0 1,0.1 1,0.24 C1,0.4 0.8,0.64 0.5,0.9 Z" />
+        </clipPath>
+      </defs>
+    </svg>
+
     <div class="grain" aria-hidden="true"></div>
     <div class="glow" aria-hidden="true"></div>
     <div class="floaters" id="floaters" aria-hidden="true"></div>
@@ -53,6 +62,23 @@
         <button class="text-btn is-hidden" id="letterBtn" type="button">keep going</button>
       </section>
 
+      <section class="scene" data-scene="photo" aria-label="A little photo">
+        <p class="kicker">♥ little you ♥</p>
+        <p class="whisper small">look at you.</p>
+        <figure class="cutout" id="cutout">
+          <span class="tape" aria-hidden="true"></span>
+          <div class="cutout-paper"></div>
+          <div class="cutout-window">
+            <img
+              id="cutoutPhoto"
+              alt="Ashwaki"
+            />
+          </div>
+          <figcaption class="cutout-caption">little Ashwaki</figcaption>
+        </figure>
+        <button class="text-btn" id="photoBtn" type="button">keep going</button>
+      </section>
+
       <section class="scene" data-scene="reasons" aria-label="Reasons I love you">
         <p class="kicker">♥ just a few ♥</p>
         <h2 class="scene-title">reasons I love you</h2>
@@ -77,8 +103,10 @@
             <div class="plate"></div>
           </div>
         </div>
-        <button class="pill-btn" id="blowBtn" type="button">blow out the candles</button>
-        <button class="text-btn is-hidden" id="cakeBtn" type="button">okay… now this</button>
+        <div class="actions">
+          <button class="pill-btn" id="blowBtn" type="button">blow out the candles</button>
+          <button class="text-btn is-hidden" id="cakeBtn" type="button">okay… now this</button>
+        </div>
       </section>
 
       <section class="scene" data-scene="finale" aria-label="Happy birthday">
