@@ -33,7 +33,6 @@ const finaleName = document.querySelector("#finaleName");
 const finaleFrom = document.querySelector("#finaleFrom");
 const finaleKicker = document.querySelector("#finaleKicker");
 const photoBtn = document.querySelector("#photoBtn");
-const dolls = document.querySelector("#dolls");
 const canvas = document.querySelector("#confetti");
 const ctx = canvas.getContext("2d");
 
@@ -236,12 +235,6 @@ envelope.addEventListener("click", () => {
 
 letterBtn.addEventListener("click", () => showScene("photo"));
 photoBtn.addEventListener("click", () => showScene("cake"));
-dolls.addEventListener("click", (event) => {
-  const doll = event.target.closest(".doll");
-  if (!doll) return;
-  dolls.querySelectorAll(".doll").forEach((item) => item.classList.remove("is-front"));
-  doll.classList.add("is-front");
-});
 
 blowBtn.addEventListener("click", () => {
   cake.classList.add("is-blown");

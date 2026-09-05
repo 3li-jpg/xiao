@@ -373,42 +373,23 @@ button {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 6px;
-  height: min(46vh, 340px);
-  width: min(340px, 92vw);
+  height: min(48vh, 360px);
+  width: min(220px, 70vw);
   flex: 0 1 auto;
 }
 
 .doll {
-  height: 92%;
-  padding: 0;
-  background: none;
+  height: 100%;
   filter: drop-shadow(0 16px 14px rgba(58, 42, 44, 0.2));
-  transition: transform 0.35s ease;
 }
 
 .doll img {
   height: 100%;
   width: auto;
-  max-width: 42vw;
+  max-width: 70vw;
   display: block;
   object-fit: contain;
   -webkit-user-drag: none;
-}
-
-.doll:first-child {
-  transform: rotate(-5deg);
-  z-index: 1;
-}
-
-.doll:last-child {
-  transform: rotate(4deg);
-  z-index: 2;
-}
-
-.doll.is-front {
-  z-index: 4;
-  transform: rotate(-1deg) scale(1.06);
 }
 
 .cutout-caption {
@@ -698,7 +679,7 @@ button {
   }
 
   .dolls {
-    height: min(38vh, 250px);
+    height: min(42vh, 280px);
   }
 }
 
