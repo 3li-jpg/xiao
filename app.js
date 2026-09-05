@@ -173,6 +173,18 @@ function burst(x, y, amount = 80) {
   }
 }
 
+function drawHeartShape(size) {
+  const s = Math.max(size, 4);
+  ctx.beginPath();
+  ctx.moveTo(0, s * 0.35);
+  ctx.bezierCurveTo(0, -s * 0.25, -s, -s * 0.25, -s, s * 0.2);
+  ctx.bezierCurveTo(-s, s * 0.65, 0, s * 1.05, 0, s * 1.15);
+  ctx.bezierCurveTo(0, s * 1.05, s, s * 0.65, s, s * 0.2);
+  ctx.bezierCurveTo(s, -s * 0.25, 0, -s * 0.25, 0, s * 0.35);
+  ctx.closePath();
+  ctx.fill();
+}
+
 function drawConfetti() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   confettiBits = confettiBits.filter((bit) => bit.life > 0);
@@ -186,8 +198,7 @@ function drawConfetti() {
     ctx.rotate(bit.life * bit.spin);
     ctx.globalAlpha = Math.max(bit.life / 120, 0);
     ctx.fillStyle = bit.color;
-    ctx.font = `${12 + bit.size}px serif`;
-    ctx.fillText("♥", 0, 0);
+    drawHeartShape(bit.size);
     ctx.restore();
   });
   if (confettiTimer > 0 || confettiBits.length) {
