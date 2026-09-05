@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f4ece3" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="description" content="A little birthday website, just for you." />
-    <title>for you</title>
+    <meta name="description" content="A little birthday website for Ashwaki." />
+    <title>for Ashwaki ♥</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -20,16 +20,18 @@
     <div class="grain" aria-hidden="true"></div>
     <div class="glow" aria-hidden="true"></div>
     <div class="floaters" id="floaters" aria-hidden="true"></div>
+    <div class="heart-scatter" id="heartScatter" aria-hidden="true"></div>
 
     <main class="stage" id="stage">
       <section class="scene is-on" data-scene="intro" aria-label="Welcome">
-        <p class="kicker">a little something</p>
-        <p class="whisper" id="introText">hey you.</p>
+        <p class="kicker">♥ a little something ♥</p>
+        <p class="whisper" id="introText">hey Ashwaki.</p>
+        <p class="heart-row" aria-hidden="true">♥ ♡ ♥ ♡ ♥</p>
         <button class="text-btn" id="introBtn" type="button">continue</button>
       </section>
 
       <section class="scene" data-scene="envelope" aria-label="Envelope">
-        <p class="whisper small">open me</p>
+        <p class="whisper small">open me ♥</p>
         <button class="envelope" id="envelope" type="button" aria-label="Open the letter">
           <span class="envelope-shadow"></span>
           <span class="letter-peek">
@@ -44,6 +46,7 @@
 
       <section class="scene" data-scene="letter" aria-label="Birthday letter">
         <article class="paper" id="paper">
+          <p class="paper-hearts" aria-hidden="true">♥ ♡ ♥</p>
           <p class="paper-date" id="letterDate"></p>
           <p class="paper-body" id="letterBody"></p>
         </article>
@@ -51,8 +54,9 @@
       </section>
 
       <section class="scene" data-scene="reasons" aria-label="Reasons I love you">
-        <p class="kicker">just a few</p>
+        <p class="kicker">♥ just a few ♥</p>
         <h2 class="scene-title">reasons I love you</h2>
+        <p class="heart-row tiny" aria-hidden="true">♡ ♥ ♡</p>
         <div class="cards" id="cards"></div>
         <button class="text-btn" id="reasonsBtn" type="button">one more thing</button>
       </section>
@@ -66,7 +70,7 @@
               <span class="candle tall"><i class="flame"></i></span>
               <span class="candle"><i class="flame"></i></span>
             </div>
-            <div class="icing"></div>
+            <div class="icing"><span class="cake-heart">♥</span></div>
             <div class="layer top"></div>
             <div class="layer mid"></div>
             <div class="layer base"></div>
@@ -81,7 +85,8 @@
         <p class="kicker" id="finaleKicker">september 6th</p>
         <h1 class="script" id="finaleTitle">happy birthday</h1>
         <p class="beloved" id="finaleName"></p>
-        <p class="closing" id="finaleLove">I love you.</p>
+        <p class="heart-row finale-hearts" aria-hidden="true">♥ ♡ ♥ ♡ ♥ ♡ ♥</p>
+        <p class="closing" id="finaleLove">I love you. ♥</p>
         <p class="from" id="finaleFrom"></p>
       </section>
     </main>

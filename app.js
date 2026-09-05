@@ -1,14 +1,16 @@
 const SITE = {
-  herName: "my love",
+  herName: "Ashwaki",
   fromName: "Ali",
   dateLabel: "September 6th",
   intro: [
-    "hey you.",
+    "hey Ashwaki.",
     "I made you something.",
     "it’s only a little website.",
     "but it’s just for you.",
   ],
-  letter: `I wanted to give you something you could open. Not a text that disappears into the thread.
+  letter: `Ashwaki,
+
+I wanted to give you something you could open. Not a text that disappears into the thread.
 
 A quiet little place that exists because it’s your birthday, and because I love you.
 
@@ -94,18 +96,56 @@ function renderCards() {
     .join("");
 }
 
-function spawnFloaters(count = 14) {
+function spawnFloaters(count = 42) {
   const root = document.querySelector("#floaters");
+  const glyphs = ["♥", "♥", "♥", "♡", "♥"];
   root.innerHTML = "";
   for (let i = 0; i < count; i += 1) {
     const span = document.createElement("span");
     span.className = "floater";
-    span.textContent = i % 4 === 0 ? "✦" : "♥";
+    span.textContent = glyphs[i % glyphs.length];
     span.style.left = `${Math.random() * 100}%`;
-    span.style.animationDuration = `${9 + Math.random() * 10}s`;
-    span.style.animationDelay = `${Math.random() * 8}s`;
-    span.style.fontSize = `${10 + Math.random() * 14}px`;
+    span.style.animationDuration = `${7 + Math.random() * 9}s`;
+    span.style.animationDelay = `${Math.random() * 6}s`;
+    span.style.fontSize = `${12 + Math.random() * 22}px`;
+    span.style.color = i % 3 === 0 ? "#7a3b45" : "#c97b84";
     root.appendChild(span);
+  }
+}
+
+function spawnScatter() {
+  const root = document.querySelector("#heartScatter");
+  const spots = [
+    [6, 8], [18, 14], [88, 10], [94, 22], [8, 42], [92, 48],
+    [4, 70], [14, 86], [86, 78], [96, 62], [48, 6], [72, 12],
+    [28, 90], [62, 88], [40, 8], [80, 36], [12, 58], [90, 84],
+    [22, 28], [76, 68], [34, 76], [58, 18], [10, 22], [84, 54],
+  ];
+  root.innerHTML = spots
+    .map(
+      ([x, y], i) =>
+        `<span style="left:${x}%;top:${y}%;font-size:${14 + (i % 5) * 6}px;animation-delay:${(i * 0.18).toFixed(2)}s">${i % 4 === 0 ? "♡" : "♥"}</span>`
+    )
+    .join("");
+}
+
+function popHeart(x, y, extra = "") {
+  const heart = document.createElement("span");
+  heart.className = "tap-heart";
+  heart.textContent = extra || (Math.random() > 0.25 ? "♥" : "♡");
+  heart.style.left = `${x}px`;
+  heart.style.top = `${y}px`;
+  heart.style.fontSize = `${18 + Math.random() * 18}px`;
+  heart.style.color = Math.random() > 0.5 ? "#7a3b45" : "#c97b84";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 900);
+}
+
+function burstHearts(x, y, amount = 10) {
+  for (let i = 0; i < amount; i += 1) {
+    const dx = x + (Math.random() - 0.5) * 90;
+    const dy = y + (Math.random() - 0.5) * 60;
+    setTimeout(() => popHeart(dx, dy), i * 40);
   }
 }
 
@@ -146,7 +186,8 @@ function drawConfetti() {
     ctx.rotate(bit.life * bit.spin);
     ctx.globalAlpha = Math.max(bit.life / 120, 0);
     ctx.fillStyle = bit.color;
-    ctx.fillRect(-bit.size / 2, -bit.size / 2, bit.size, bit.size * 0.6);
+    ctx.font = `${12 + bit.size}px serif`;
+    ctx.fillText("♥", 0, 0);
     ctx.restore();
   });
   if (confettiTimer > 0 || confettiBits.length) {
@@ -155,9 +196,10 @@ function drawConfetti() {
 }
 
 function celebrate() {
-  burst(window.innerWidth / 2, window.innerHeight * 0.28, 110);
-  burst(window.innerWidth * 0.25, window.innerHeight * 0.4, 50);
-  burst(window.innerWidth * 0.75, window.innerHeight * 0.4, 50);
+  burst(window.innerWidth / 2, window.innerHeight * 0.28, 140);
+  burst(window.innerWidth * 0.22, window.innerHeight * 0.42, 70);
+  burst(window.innerWidth * 0.78, window.innerHeight * 0.42, 70);
+  burstHearts(window.innerWidth / 2, window.innerHeight * 0.35, 16);
   confettiTimer = 1;
   drawConfetti();
 }
@@ -169,6 +211,7 @@ finaleName.textContent = SITE.herName;
 finaleFrom.textContent = `— ${SITE.fromName}`;
 renderCards();
 spawnFloaters();
+spawnScatter();
 resizeCanvas();
 
 introBtn.addEventListener("click", () => {
@@ -190,7 +233,8 @@ introText.style.transition = "opacity 0.18s ease";
 envelope.addEventListener("click", () => {
   if (envelope.classList.contains("is-open")) return;
   envelope.classList.add("is-open");
-  envelopeHint.textContent = "for you";
+  envelopeHint.textContent = `for ${SITE.herName} ♥`;
+  burstHearts(window.innerWidth / 2, window.innerHeight * 0.45, 14);
   setTimeout(() => {
     showScene("letter");
     typeLetter(SITE.letter, () => letterBtn.classList.remove("is-hidden"));
@@ -203,6 +247,8 @@ function flipCard(card) {
   if (!card) return;
   card.classList.toggle("is-flipped");
   card.setAttribute("aria-pressed", card.classList.contains("is-flipped") ? "true" : "false");
+  const rect = card.getBoundingClientRect();
+  burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 6);
 }
 
 cards.addEventListener("click", (event) => {
@@ -221,7 +267,7 @@ reasonsBtn.addEventListener("click", () => showScene("cake"));
 
 blowBtn.addEventListener("click", () => {
   cake.classList.add("is-blown");
-  cakePrompt.textContent = "happy birthday.";
+  cakePrompt.textContent = `happy birthday, ${SITE.herName}.`;
   blowBtn.classList.add("is-hidden");
   cakeBtn.classList.remove("is-hidden");
   celebrate();
@@ -230,7 +276,11 @@ blowBtn.addEventListener("click", () => {
 cakeBtn.addEventListener("click", () => {
   showScene("finale");
   celebrate();
-  spawnFloaters(22);
+  spawnFloaters(56);
+});
+
+document.addEventListener("pointerdown", (event) => {
+  popHeart(event.clientX, event.clientY);
 });
 
 window.addEventListener("resize", resizeCanvas);

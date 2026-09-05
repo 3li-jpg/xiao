@@ -1,4 +1,4 @@
-# for you
+# for Ashwaki
 
 A tiny romantic birthday website. No build step, no framework — just open `index.html`.
 
@@ -18,7 +18,7 @@ Everything personal lives at the top of `app.js`:
 
 ```js
 const SITE = {
-  herName: "my love",   // change this to her name
+  herName: "Ashwaki",
   fromName: "Ali",
   dateLabel: "September 6th",
   intro: [ ... ],
@@ -27,4 +27,4 @@ const SITE = {
 };
 ```
 
-That’s it. Soft click-through, an envelope, a letter, a few reasons, then a cake.
+That’s it. Soft click-through, an envelope, a letter, a few reasons, then a cake — with hearts throughout, and a heart wherever she taps.
