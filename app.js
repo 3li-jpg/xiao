@@ -79,7 +79,7 @@ function renderCards() {
   cards.innerHTML = SITE.reasons
     .map(
       (reason, index) => `
-        <button class="card" type="button" data-card="${index}" aria-label="${reason.title}">
+        <div class="card" role="button" tabindex="0" data-card="${index}" aria-label="${reason.title}" aria-pressed="false">
           <span class="card-inner">
             <span class="card-face card-front">
               <span class="heart-mark">♥</span>
@@ -89,7 +89,7 @@ function renderCards() {
               <p class="card-copy">${reason.copy}</p>
             </span>
           </span>
-        </button>`
+        </div>`
     )
     .join("");
 }
@@ -199,9 +199,22 @@ envelope.addEventListener("click", () => {
 
 letterBtn.addEventListener("click", () => showScene("reasons"));
 
+function flipCard(card) {
+  if (!card) return;
+  card.classList.toggle("is-flipped");
+  card.setAttribute("aria-pressed", card.classList.contains("is-flipped") ? "true" : "false");
+}
+
 cards.addEventListener("click", (event) => {
+  flipCard(event.target.closest(".card"));
+});
+
+cards.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
   const card = event.target.closest(".card");
-  if (card) card.classList.toggle("is-flipped");
+  if (!card) return;
+  event.preventDefault();
+  flipCard(card);
 });
 
 reasonsBtn.addEventListener("click", () => showScene("cake"));
@@ -221,3 +234,6 @@ cakeBtn.addEventListener("click", () => {
 });
 
 window.addEventListener("resize", resizeCanvas);
+
+const startScene = new URLSearchParams(location.search).get("scene");
+if (startScene) showScene(startScene);
