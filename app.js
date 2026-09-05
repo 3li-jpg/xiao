@@ -17,14 +17,6 @@ A quiet little place that exists because it’s your birthday, and because I lov
 
 happy birthday.
 always yours,`,
-  reasons: [
-    { title: "your laugh", copy: "it undoes my whole day, in the best way." },
-    { title: "your heart", copy: "you care in the small, quiet ways nobody else sees." },
-    { title: "this feeling", copy: "ordinary rooms feel warmer when you’re in them." },
-    { title: "your mind", copy: "the way you notice things. the way you think." },
-    { title: "how safe", copy: "I can be all of myself with you." },
-    { title: "you", copy: "that’s the whole list, actually." },
-  ],
 };
 
 const introText = document.querySelector("#introText");
@@ -34,8 +26,6 @@ const envelopeHint = document.querySelector("#envelopeHint");
 const letterDate = document.querySelector("#letterDate");
 const letterBody = document.querySelector("#letterBody");
 const letterBtn = document.querySelector("#letterBtn");
-const cards = document.querySelector("#cards");
-const reasonsBtn = document.querySelector("#reasonsBtn");
 const cake = document.querySelector("#cake");
 const cakePrompt = document.querySelector("#cakePrompt");
 const blowBtn = document.querySelector("#blowBtn");
@@ -80,25 +70,6 @@ function typeLetter(text, onDone) {
   };
 
   tick();
-}
-
-function renderCards() {
-  cards.innerHTML = SITE.reasons
-    .map(
-      (reason, index) => `
-        <div class="card" role="button" tabindex="0" data-card="${index}" aria-label="${reason.title}" aria-pressed="false">
-          <span class="card-inner">
-            <span class="card-face card-front">
-              <span class="heart-mark">♥</span>
-              <span class="card-label">${reason.title}</span>
-            </span>
-            <span class="card-face card-back">
-              <p class="card-copy">${reason.copy}</p>
-            </span>
-          </span>
-        </div>`
-    )
-    .join("");
 }
 
 function spawnFloaters(count) {
@@ -239,7 +210,6 @@ cutoutPhoto.addEventListener("error", () => {
   cutoutPhoto.src = "./photos/placeholder.svg";
 });
 cutoutPhoto.src = SITE.photo;
-renderCards();
 spawnFloaters();
 spawnScatter();
 resizeCanvas();
@@ -272,29 +242,7 @@ envelope.addEventListener("click", () => {
 });
 
 letterBtn.addEventListener("click", () => showScene("photo"));
-photoBtn.addEventListener("click", () => showScene("reasons"));
-
-function flipCard(card) {
-  if (!card) return;
-  card.classList.toggle("is-flipped");
-  card.setAttribute("aria-pressed", card.classList.contains("is-flipped") ? "true" : "false");
-  const rect = card.getBoundingClientRect();
-  burstHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 6);
-}
-
-cards.addEventListener("click", (event) => {
-  flipCard(event.target.closest(".card"));
-});
-
-cards.addEventListener("keydown", (event) => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  const card = event.target.closest(".card");
-  if (!card) return;
-  event.preventDefault();
-  flipCard(card);
-});
-
-reasonsBtn.addEventListener("click", () => showScene("cake"));
+photoBtn.addEventListener("click", () => showScene("cake"));
 
 blowBtn.addEventListener("click", () => {
   cake.classList.add("is-blown");
