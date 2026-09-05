@@ -18,14 +18,6 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <svg class="clip-svg" aria-hidden="true" focusable="false">
-      <defs>
-        <clipPath id="heartCut" clipPathUnits="objectBoundingBox">
-          <path d="M0.5,0.9 C0.2,0.64 0,0.4 0,0.24 C0,0.1 0.12,0 0.26,0 C0.36,0 0.45,0.05 0.5,0.16 C0.55,0.05 0.64,0 0.74,0 C0.88,0 1,0.1 1,0.24 C1,0.4 0.8,0.64 0.5,0.9 Z" />
-        </clipPath>
-      </defs>
-    </svg>
-
     <div class="grain" aria-hidden="true"></div>
     <div class="glow" aria-hidden="true"></div>
     <div class="floaters" id="floaters" aria-hidden="true"></div>
@@ -65,17 +57,15 @@
       <section class="scene" data-scene="photo" aria-label="A little photo">
         <p class="kicker">♥ little you ♥</p>
         <p class="whisper small">look at you.</p>
-        <figure class="cutout" id="cutout">
-          <span class="tape" aria-hidden="true"></span>
-          <div class="cutout-paper"></div>
-          <div class="cutout-window">
-            <img
-              id="cutoutPhoto"
-              alt="Ashwaki"
-            />
-          </div>
-          <figcaption class="cutout-caption">little Ashwaki</figcaption>
-        </figure>
+        <div class="dolls" id="dolls">
+          <button class="doll is-front" type="button" aria-label="Ashwaki as a baby">
+            <img src="./photos/ashwaki-baby-1.png" alt="Ashwaki as a baby" />
+          </button>
+          <button class="doll" type="button" aria-label="Ashwaki as a little girl">
+            <img src="./photos/ashwaki-baby-2.png" alt="Ashwaki as a little girl" />
+          </button>
+        </div>
+        <p class="cutout-caption">little Ashwaki</p>
         <button class="text-btn" id="photoBtn" type="button">keep going</button>
       </section>
 

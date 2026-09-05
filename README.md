@@ -12,13 +12,7 @@ The fastest way is GitHub Pages:
 
 ## Her childhood photo
 
-Drop the picture here:
-
-```
-photos/ashwaki.jpg
-```
-
-It is shown as a heart-shaped paper cutout. A childhood portrait that is fairly close-up works best.
+It is shown as a paper cutout of her as a baby. Drop extra photos in `photos/` if you want more later.
 
 ## Names and copy
 
@@ -29,6 +23,5 @@ const SITE = {
   herName: "Ashwaki",
   fromName: "Alawi",
   dateLabel: "September 6th",
-  photo: "./photos/ashwaki.jpg",
 };
 ```
